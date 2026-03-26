@@ -43,7 +43,7 @@
     .mc-options { display:flex; flex-direction:column; gap:8px; }
     .mc-option { display:flex; align-items:center; gap:12px; padding:11px 16px; background:var(--surface2); border:1.5px solid var(--border); border-radius:6px; cursor:pointer; font-size:14px; color:var(--text); transition:border-color 0.15s,background 0.15s; }
     .mc-option:hover { border-color:var(--accent); background:rgba(224,123,57,0.06); }
-    .mc-option input[type="radio"] { width:17px; height:17px; accent-color:var(--accent); flex-shrink:0; cursor:pointer; }
+    .mc-option input[type="radio"], .mc-option input[type="checkbox"] { width:17px; height:17px; accent-color:var(--accent); flex-shrink:0; cursor:pointer; }
     .mc-option.selected { border-color:var(--accent); background:rgba(224,123,57,0.1); }
     .q-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
     @media (max-width:600px) { .q-grid { grid-template-columns:1fr; } }
@@ -352,7 +352,7 @@
               <td><input class="likert-radio" type="radio" name="q17" value="1"></td>
             </tr>
             <tr id="block-q18">
-              <td><span class="q-num">V18</span> Ik geef de voorkeur aan een saus met een beperkt aantal herkendbare ingredienten boven een saus met veel additieven.</td>
+              <td><span class="q-num">V18</span> Ik geef de voorkeur aan een saus met een beperkt aantal herkenbare ingredienten boven een saus met veel additieven.</td>
               <td><input class="likert-radio" type="radio" name="q18" value="5"></td>
               <td><input class="likert-radio" type="radio" name="q18" value="4"></td>
               <td><input class="likert-radio" type="radio" name="q18" value="3"></td>
@@ -439,15 +439,15 @@
       </div>
 
       <div class="question-block" id="block-q22">
-        <p class="question-text"><span class="q-num">V22</span> Als u zou kiezen voor de artisanale umami-chilisaus, waar koopt u hem dan het liefst? <span class="required-star">*</span></p>
+        <p class="question-text"><span class="q-num">V22</span> Als u zou kiezen voor de artisanale umami-chilisaus, waar koopt u hem dan het liefst? <span style="font-weight:normal;font-size:0.85em;opacity:0.7;">(meerdere keuzes mogelijk)</span> <span class="required-star">*</span></p>
         <div class="mc-options" data-name="q22">
-          <label class="mc-option"><input type="radio" name="q22" value="a"> In een delicatessen- of speciaalzaak</label>
-          <label class="mc-option"><input type="radio" name="q22" value="b"> Online, rechtstreeks bij de producent</label>
-          <label class="mc-option"><input type="radio" name="q22" value="c"> In een kwaliteitssupermarkt (bijv. Delhaize, biologische winkels)</label>
-          <label class="mc-option"><input type="radio" name="q22" value="d"> In een horecazaak of restaurant als meeneemsouvenirproduct</label>
-          <label class="mc-option"><input type="radio" name="q22" value="e"> Ik zou dit product niet kopen</label>
+          <label class="mc-option"><input type="checkbox" name="q22" value="a"> In een delicatessen- of speciaalzaak</label>
+          <label class="mc-option"><input type="checkbox" name="q22" value="b"> Online, rechtstreeks bij de producent</label>
+          <label class="mc-option"><input type="checkbox" name="q22" value="c"> In een kwaliteitssupermarkt (bijv. Delhaize, biologische winkels)</label>
+          <label class="mc-option"><input type="checkbox" name="q22" value="d"> In een horecazaak of restaurant als meeneemsouvenirproduct</label>
+          <label class="mc-option"><input type="checkbox" name="q22" value="e"> Ik zou dit product niet kopen</label>
         </div>
-        <div class="field-error" id="err-q22">Gelieve een antwoord te selecteren.</div>
+        <div class="field-error" id="err-q22">Gelieve minstens een antwoord te selecteren.</div>
       </div>
     </div>
 
@@ -516,6 +516,18 @@
         </table>
       </div>
       <div class="field-error" id="err-s6">Gelieve alle stellingen te beantwoorden.</div>
+    </div>
+
+    <!-- ── V28: Vrij veld ── -->
+    <div class="survey-section">
+      <div class="section-header">
+        <span class="section-num" style="background:var(--text3);">?</span>
+        <span class="section-title">Opmerkingen</span>
+      </div>
+      <div class="question-block" id="block-q28">
+        <p class="question-text"><span class="q-num">V28</span> Heeft u nog opmerkingen of aanvullingen? <span style="font-weight:normal;font-size:0.85em;opacity:0.7;">(optioneel)</span></p>
+        <textarea id="q28" name="q28" rows="4" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);color:var(--text);padding:10px 12px;font-size:14px;font-family:inherit;resize:vertical;box-sizing:border-box;" placeholder="Uw opmerkingen hier..."></textarea>
+      </div>
     </div>
 
     <!-- ── Submit ── -->
@@ -599,6 +611,13 @@
     });
   });
 
+  // Highlight for checkboxes (toggle per item)
+  document.querySelectorAll('.mc-option input[type="checkbox"]').forEach(input => {
+    input.addEventListener('change', () => {
+      input.closest('.mc-option').classList.toggle('selected', input.checked);
+    });
+  });
+
   // Highlight price cards
   document.querySelectorAll('.price-card input[type="radio"]').forEach(input => {
     input.addEventListener('change', () => {
@@ -641,9 +660,15 @@
     const data = {};
     for (let i = 1; i <= 27; i++) {
       const key = `q${i}`;
-      const el = document.querySelector(`input[name="${key}"]:checked`);
-      data[key] = el ? el.value : '';
+      if (key === 'q22') {
+        const checked = [...document.querySelectorAll('input[name="q22"]:checked')].map(el => el.value);
+        data[key] = checked.join(',');
+      } else {
+        const el = document.querySelector(`input[name="${key}"]:checked`);
+        data[key] = el ? el.value : '';
+      }
     }
+    data['q28'] = (document.getElementById('q28') || {}).value || '';
     return data;
   }
 
