@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Survey Dashboard - Chilisaus Thesis</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="questions.js"></script>
+  <script src="charts.js"></script>
+</head>
+<body>
+
+<!-- Login overlay -->
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-box">
+    <h2>Dashboard toegang</h2>
+    <p>Voer het API-token in om het analysedashboard te openen.</p>
+    <input type="password" id="tokenInput" placeholder="API token" autocomplete="off">
+    <button class="btn btn-primary" style="width:100%;" onclick="doLogin()">Aanmelden</button>
+    <div class="login-error" id="loginError">Ongeldig token. Controleer uw .env bestand.</div>
+  </div>
+</div>
+
+<!-- Dashboard layout -->
+<div class="dash-layout">
+
+  <!-- Sidebar -->
+  <aside class="dash-sidebar">
+    <span class="logo">Survey Dashboard</span>
+    <nav class="dash-nav">
+      <a href="#overview" class="active">Overzicht</a>
+      <a href="#timeline">Responstijdlijn</a>
+      <a href="#s1">Profiel</a>
+      <a href="#s2">Aankoopgedrag</a>
+      <a href="#s3">Smaak &amp; umami</a>
+      <a href="#s4">Productperceptie</a>
+      <a href="#s5">Betalingsbereidheid</a>
+      <a href="#s6">Koopintentie</a>
+      <a href="#cronbach">Cronbach's alpha</a>
+      <a href="#export">Exporteer data</a>
+    </nav>
+  </aside>
+
+  <!-- Main content -->
+  <main class="dash-main">
+
+    <div class="dash-header">
+      <h1 id="overview">Survey Analyse Dashboard</h1>
+      <div>
+        <button class="btn btn-secondary btn-sm" onclick="refreshData()">Vernieuwen</button>
+        <span id="lastRefresh" style="font-size:11px;color:var(--text3);margin-left:10px;"></span>
+      </div>
+    </div>
+
+    <!-- Filter bar -->
+    <div class="filter-bar">
+      <label>Filter op demografisch segment:</label>
+      <select id="filterSelect" onchange="applyFilter()">
+        <option value="all">Alle respondenten</option>
+        <option value="q1_a">Leeftijd: 18-25 jaar</option>
+        <option value="q1_b">Leeftijd: 26-35 jaar</option>
+        <option value="q1_c">Leeftijd: 36-50 jaar</option>
+        <option value="q1_d">Leeftijd: 51+</option>
+        <option value="q2_a">Geslacht: Man</option>
+        <option value="q2_b">Geslacht: Vrouw</option>
+        <option value="q4_a">Budget: &lt; &euro;10/maand</option>
+        <option value="q4_b">Budget: &euro;10-25/maand</option>
+        <option value="q4_c">Budget: &euro;26-50/maand</option>
+        <option value="q4_d">Budget: &gt; &euro;50/maand</option>
+      </select>
+      <span class="filter-info" id="filterInfo"></span>
+    </div>
+
+    <!-- Stat cards -->
+    <div class="stat-cards" id="statCards">
+      <div class="stat-card">
+        <span class="val" id="statTotal">-</span>
+        <span class="lbl">Totaal responsen</span>
+      </div>
+      <div class="stat-card">
+        <span class="val" id="statFiltered">-</span>
+        <span class="lbl">Na filter</span>
+      </div>
+      <div class="stat-card">
+        <span class="val" id="statDays">-</span>
+        <span class="lbl">Actieve dagen</span>
+      </div>
+      <div class="stat-card">
+        <span class="val" id="statAvgPerDay">-</span>
+        <span class="lbl">Gem. per dag</span>
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="timeline-card" id="timeline">
+      <h3>Responstijdlijn</h3>
+      <div style="height:150px;"><canvas id="chartTimeline"></canvas></div>
+    </div>
+
+    <!-- Section 1: Profiel -->
+    <div class="chart-section" id="s1">
+      <div class="chart-section-title">1. Uw profiel</div>
+      <div class="chart-grid">
+
+        <div class="chart-card">
+          <h4>V1</h4>
+          <div class="q-full">Leeftijdscategorie</div>
+          <div style="height:160px;"><canvas id="chart-q1"></canvas></div>
+        </div>
+
+        <div class="chart-card">
+          <h4>V2</h4>
+          <div class="q-full">Geslacht</div>
+          <div style="height:160px;"><canvas id="chart-q2"></canvas></div>
+        </div>
+
+        <div class="chart-card">
+          <h4>V3</h4>
+          <div class="q-full">Hoe vaak kookt u thuis?</div>
+          <div style="height:160px;"><canvas id="chart-q3"></canvas></div>
+        </div>
+
+        <div class="chart-card">
+          <h4>V4</h4>
+          <div class="q-full">Maandelijkse uitgaven premium producten</div>
+          <div style="height:160px;"><canvas id="chart-q4"></canvas></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Section 2: Aankoopgedrag -->
+    <div class="chart-section" id="s2">
+      <div class="chart-section-title">2. Aankoopgedrag bij sauzen</div>
+      <div class="chart-grid" id="chartsS2"></div>
+    </div>
+
+    <!-- Section 3: Smaak & umami -->
+    <div class="chart-section" id="s3">
+      <div class="chart-section-title">3. Smaakbeleving en umami</div>
+      <div class="chart-grid" id="chartsS3"></div>
+    </div>
+
+    <!-- Section 4: Productperceptie -->
+    <div class="chart-section" id="s4">
+      <div class="chart-section-title">4. Productperceptie en merkpositionering</div>
+      <div class="chart-grid" id="chartsS4"></div>
+    </div>
+
+    <!-- Section 5: Betalingsbereidheid -->
+    <div class="chart-section" id="s5">
+      <div class="chart-section-title">5. Betalingsbereidheid</div>
+      <div class="chart-grid" id="chartsS5"></div>
+    </div>
+
+    <!-- Section 6: Koopintentie -->
+    <div class="chart-section" id="s6">
+      <div class="chart-section-title">6. Koopintentie</div>
+      <div class="chart-grid" id="chartsS6"></div>
+    </div>
+
+    <!-- Cronbach's alpha -->
+    <div class="chart-section" id="cronbach">
+      <div class="chart-section-title">Interne consistentie - Cronbach's alpha</div>
+      <table class="cronbach-table" id="cronbachTable">
+        <thead>
+          <tr>
+            <th>Construct</th>
+            <th>Items</th>
+            <th>n (compleet)</th>
+            <th>Cronbach's &#945;</th>
+            <th>Interpretatie</th>
+          </tr>
+        </thead>
+        <tbody id="cronbachBody">
+          <tr><td colspan="5" style="color:var(--text3);padding:16px;">Laden...</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:12px;color:var(--text3);margin-top:8px;">
+        Drempelwaarden: &#945; &ge; 0.9 = uitstekend, &#945; &ge; 0.8 = goed, &#945; &ge; 0.7 = acceptabel, &#945; &lt; 0.7 = matig/zwak.
+      </p>
+    </div>
+
+    <!-- Export -->
+    <div class="export-box" id="export">
+      <h3>Exporteer data</h3>
+      <p>Download ruwe data voor verdere analyse in SPSS, R of Excel, of genereer een LaTeX-tabel voor de thesis.</p>
+      <div class="export-btns">
+        <button class="btn btn-primary" onclick="downloadCSV()">Download CSV (Excel/SPSS)</button>
+        <button class="btn btn-secondary" onclick="downloadJSON()">Download JSON (R)</button>
+        <button class="btn btn-secondary" onclick="generateLatex()">Genereer LaTeX-tabel</button>
+      </div>
+      <textarea class="latex-output" id="latexOutput" placeholder="LaTeX-tabel verschijnt hier na klikken op 'Genereer LaTeX-tabel'..." style="display:none;"></textarea>
+    </div>
+
+    <div style="height:60px;"></div>
+
+  </main><!-- /.dash-main -->
+</div><!-- /.dash-layout -->
+
+<script>
+// ── State ─────────────────────────────────────────────────────────────────
+let allResponses = [];
+let filteredResponses = [];
+let currentStats = null;
+let activeToken = '';
+const chartInstances = {};
+
+// ── Login ─────────────────────────────────────────────────────────────────
+function doLogin() {
+  const token = document.getElementById('tokenInput').value.trim();
+  if (!token) return;
+
+  fetch('/api/stats?token=' + encodeURIComponent(token))
+    .then(r => {
+      if (r.status === 401) throw new Error('unauthorized');
+      return r.json();
+    })
+    .then(data => {
+      activeToken = token;
+      document.getElementById('loginOverlay').style.display = 'none';
+      currentStats = data;
+      loadAllData();
+    })
+    .catch(() => {
+      document.getElementById('loginError').classList.add('visible');
+    });
+}
+
+document.getElementById('tokenInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
+
+// ── Data loading ──────────────────────────────────────────────────────────
+function loadAllData() {
+  Promise.all([
+    fetch('/api/responses?token=' + activeToken).then(r => r.json()),
+    fetch('/api/stats?token=' + activeToken).then(r => r.json())
+  ]).then(([responses, stats]) => {
+    allResponses = Array.isArray(responses) ? responses : [];
+    currentStats = stats;
+    filteredResponses = [...allResponses];
+    renderDashboard(stats);
+    document.getElementById('lastRefresh').textContent =
+      'Bijgewerkt: ' + new Date().toLocaleTimeString('nl-BE');
+  }).catch(err => console.error('Load error:', err));
+}
+
+function refreshData() { loadAllData(); }
+
+// ── Filter ────────────────────────────────────────────────────────────────
+function applyFilter() {
+  const val = document.getElementById('filterSelect').value;
+
+  if (val === 'all') {
+    filteredResponses = [...allResponses];
+  } else {
+    const [qid, opt] = val.split('_');
+    filteredResponses = allResponses.filter(r => r[qid] === opt);
+  }
+
+  const info = val === 'all'
+    ? ''
+    : `${filteredResponses.length} van ${allResponses.length} respondenten`;
+  document.getElementById('filterInfo').textContent = info;
+
+  // Recompute stats on filtered subset
+  recomputeAndRender(filteredResponses);
+}
+
+function recomputeAndRender(responses) {
+  // Call server stats but override with local filtered computation
+  const stats = computeLocalStats(responses);
+  currentStats = stats;
+  renderDashboard(stats);
+}
+
+// Client-side stats recomputation for filtered subsets
+function computeLocalStats(responses) {
+  const n = responses.length;
+  const LIKERT_KEYS = ['q5','q6','q7','q8','q9','q10','q11','q12','q13','q14',
+                       'q15','q16','q17','q18','q19','q20','q23','q24','q25','q26','q27'];
+  const MC_KEYS = ['q1','q2','q3','q4','q21','q22'];
+
+  const questions = {};
+
+  for (const key of LIKERT_KEYS) {
+    const vals = responses.map(r => Number(r[key])).filter(v => Number.isInteger(v) && v >= 1 && v <= 5);
+    if (vals.length === 0) { questions[key] = { type: 'likert', n: 0 }; continue; }
+    const mean = vals.reduce((a,b) => a+b, 0) / vals.length;
+    const sorted = [...vals].sort((a,b) => a-b);
+    const mid = Math.floor(sorted.length/2);
+    const median = sorted.length % 2 === 0 ? (sorted[mid-1]+sorted[mid])/2 : sorted[mid];
+    const variance = vals.reduce((a,b) => a+(b-mean)**2, 0) / Math.max(vals.length-1, 1);
+    const freq = {1:0,2:0,3:0,4:0,5:0};
+    vals.forEach(v => { freq[v]++; });
+    questions[key] = {
+      type: 'likert', n: vals.length,
+      mean: +mean.toFixed(3), median, std: +Math.sqrt(variance).toFixed(3),
+      min: sorted[0], max: sorted[sorted.length-1], freq
+    };
+  }
+
+  for (const key of MC_KEYS) {
+    const vals = responses.map(r => r[key]).filter(v => v !== '' && v !== undefined);
+    const freq = {};
+    vals.forEach(v => { freq[v] = (freq[v]||0)+1; });
+    questions[key] = { type: 'mc', n: vals.length, freq };
+  }
+
+  // Cronbach per construct
+  const constructGroups = {
+    aankoopgedrag:    ['q5','q6','q7','q8','q9'],
+    smaak_umami:      ['q10','q11','q12','q13','q14'],
+    productperceptie: ['q15','q16','q17','q18'],
+    koopintentie:     ['q23','q24','q25','q26','q27']
+  };
+  const cronbach = {};
+  for (const [name, keys] of Object.entries(constructGroups)) {
+    cronbach[name] = computeAlpha(responses, keys);
+  }
+
+  // Timeline
+  const timeline = {};
+  responses.forEach(r => {
+    const day = r.timestamp ? r.timestamp.substring(0,10) : 'unknown';
+    timeline[day] = (timeline[day]||0)+1;
+  });
+
+  return { count: n, questions, cronbach, timeline };
+}
+
+function computeAlpha(responses, keys) {
+  const complete = responses.filter(r =>
+    keys.every(k => { const v = Number(r[k]); return Number.isInteger(v) && v >= 1 && v <= 5; })
+  );
+  const n = complete.length;
+  if (n < 2) return null;
+  const k = keys.length;
+  const itemVars = keys.map(key => {
+    const vals = complete.map(r => Number(r[key]));
+    const mean = vals.reduce((a,b)=>a+b,0)/n;
+    return vals.reduce((a,b)=>a+(b-mean)**2,0)/(n-1);
+  });
+  const totals = complete.map(r => keys.reduce((s,k)=>s+Number(r[k]),0));
+  const tm = totals.reduce((a,b)=>a+b,0)/n;
+  const tv = totals.reduce((a,b)=>a+(b-tm)**2,0)/(n-1);
+  if (tv === 0) return null;
+  return { alpha: +((k/(k-1))*(1-itemVars.reduce((a,b)=>a+b,0)/tv)).toFixed(4), k, n };
+}
+
+// ── Main render ────────────────────────────────────────────────────────────
+function renderDashboard(stats) {
+  updateStatCards(stats);
+  updateTimeline(stats.timeline);
+  renderAllCharts(stats.questions);
+  renderCronbach(stats.cronbach);
+}
+
+function updateStatCards(stats) {
+  const n = stats.count;
+  document.getElementById('statTotal').textContent = allResponses.length;
+  document.getElementById('statFiltered').textContent = n;
+  const days = Object.keys(stats.timeline || {}).length;
+  document.getElementById('statDays').textContent = days;
+  document.getElementById('statAvgPerDay').textContent =
+    days > 0 ? (n / days).toFixed(1) : '-';
+}
+
+function updateTimeline(timeline) {
+  destroyChart('chartTimeline');
+  if (timeline && Object.keys(timeline).length > 0) {
+    buildTimelineChart('chartTimeline', timeline);
+  }
+}
+
+// ── Per-section chart rendering ────────────────────────────────────────────
+
+function renderAllCharts(qStats) {
+  // Section 1: demographics (MC)
+  const q1Opts = QUESTIONS.find(q=>q.id==='q1').options;
+  const q2Opts = QUESTIONS.find(q=>q.id==='q2').options;
+  const q3Opts = QUESTIONS.find(q=>q.id==='q3').options;
+  const q4Opts = QUESTIONS.find(q=>q.id==='q4').options;
+
+  destroyChart('chart-q1'); buildMCChart('chart-q1', qStats['q1'], q1Opts);
+  destroyChart('chart-q2'); buildMCChart('chart-q2', qStats['q2'], q2Opts);
+  destroyChart('chart-q3'); buildMCChart('chart-q3', qStats['q3'], q3Opts);
+  destroyChart('chart-q4'); buildMCChart('chart-q4', qStats['q4'], q4Opts);
+
+  // Sections 2-6: Likert
+  renderLikertSection('chartsS2', ['q5','q6','q7','q8','q9'], qStats);
+  renderLikertSection('chartsS3', ['q10','q11','q12','q13','q14'], qStats);
+  renderLikertSection('chartsS4', ['q15','q16','q17','q18'], qStats);
+
+  // Section 5 has mixed: q19, q20 (likert) + q21, q22 (mc)
+  renderSection5('chartsS5', qStats);
+
+  renderLikertSection('chartsS6', ['q23','q24','q25','q26','q27'], qStats);
+}
+
+function renderLikertSection(containerId, ids, qStats) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+  ids.forEach(id => {
+    const q = QUESTIONS.find(q => q.id === id);
+    if (!q) return;
+    const canvasId = 'chart-' + id;
+    const card = document.createElement('div');
+    card.className = 'chart-card';
+    const s = qStats[id];
+    const statsHtml = s && s.n > 0
+      ? `<div class="stats-row">
+           <span class="s">n=<span>${s.n}</span></span>
+           <span class="s">M=<span>${s.mean}</span></span>
+           <span class="s">Mdn=<span>${s.median}</span></span>
+           <span class="s">SD=<span>${s.std}</span></span>
+         </div>`
+      : '<div class="stats-row"><span class="s" style="color:var(--text3)">Geen data</span></div>';
+
+    card.innerHTML = `
+      <h4>${q.label}</h4>
+      <div class="q-full">${q.text}</div>
+      <div style="height:160px;"><canvas id="${canvasId}"></canvas></div>
+      ${statsHtml}
+    `;
+    container.appendChild(card);
+    destroyChart(canvasId);
+    if (s && s.n > 0) buildLikertChart(canvasId, s);
+  });
+}
+
+function renderSection5(containerId, qStats) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+
+  // q19, q20 as Likert
+  ['q19','q20'].forEach(id => {
+    const q = QUESTIONS.find(q=>q.id===id);
+    const canvasId = 'chart-' + id;
+    const s = qStats[id];
+    const card = document.createElement('div');
+    card.className = 'chart-card';
+    const statsHtml = s && s.n > 0
+      ? `<div class="stats-row">
+           <span class="s">n=<span>${s.n}</span></span>
+           <span class="s">M=<span>${s.mean}</span></span>
+           <span class="s">Mdn=<span>${s.median}</span></span>
+           <span class="s">SD=<span>${s.std}</span></span>
+         </div>`
+      : '<div class="stats-row"><span class="s" style="color:var(--text3)">Geen data</span></div>';
+    card.innerHTML = `<h4>${q.label}</h4><div class="q-full">${q.text}</div><div style="height:160px;"><canvas id="${canvasId}"></canvas></div>${statsHtml}`;
+    container.appendChild(card);
+    destroyChart(canvasId);
+    if (s && s.n > 0) buildLikertChart(canvasId, s);
+  });
+
+  // q21: price choice
+  const q21 = QUESTIONS.find(q=>q.id==='q21');
+  const canvasQ21 = 'chart-q21';
+  const s21 = qStats['q21'];
+  const card21 = document.createElement('div');
+  card21.className = 'chart-card';
+  card21.innerHTML = `<h4>V21</h4><div class="q-full">${q21.text}</div><div style="height:160px;"><canvas id="${canvasQ21}"></canvas></div>`;
+  container.appendChild(card21);
+  destroyChart(canvasQ21);
+  if (s21 && s21.n > 0) buildMCChart(canvasQ21, s21, q21.options);
+
+  // q22: purchase channel
+  const q22 = QUESTIONS.find(q=>q.id==='q22');
+  const canvasQ22 = 'chart-q22';
+  const s22 = qStats['q22'];
+  const card22 = document.createElement('div');
+  card22.className = 'chart-card';
+  card22.innerHTML = `<h4>V22</h4><div class="q-full">${q22.text}</div><div style="height:180px;"><canvas id="${canvasQ22}"></canvas></div>`;
+  container.appendChild(card22);
+  destroyChart(canvasQ22);
+  if (s22 && s22.n > 0) buildMCChart(canvasQ22, s22, q22.options);
+}
+
+// ── Cronbach table ─────────────────────────────────────────────────────────
+const CONSTRUCT_LABELS = {
+  aankoopgedrag:    { nl: 'Aankoopgedrag (q5-q9)', items: 'V5, V6, V7, V8, V9' },
+  smaak_umami:      { nl: 'Smaakbeleving & umami (q10-q14)', items: 'V10, V11, V12, V13, V14' },
+  productperceptie: { nl: 'Productperceptie (q15-q18)', items: 'V15, V16, V17, V18' },
+  koopintentie:     { nl: 'Koopintentie (q23-q27)', items: 'V23, V24, V25, V26, V27' }
+};
+
+function renderCronbach(cronbach) {
+  const tbody = document.getElementById('cronbachBody');
+  if (!cronbach) {
+    tbody.innerHTML = '<tr><td colspan="5" style="color:var(--text3)">Geen data</td></tr>';
+    return;
+  }
+
+  const rows = Object.entries(cronbach).map(([key, val]) => {
+    const meta = CONSTRUCT_LABELS[key] || { nl: key, items: '-' };
+    if (!val) {
+      return `<tr>
+        <td>${meta.nl}</td>
+        <td style="font-size:12px;color:var(--text3)">${meta.items}</td>
+        <td>-</td>
+        <td colspan="2" style="color:var(--text3)">Te weinig data (min. 2 complete responsen)</td>
+      </tr>`;
+    }
+    const a = val.alpha;
+    let cls = a >= 0.9 ? 'alpha-good' : a >= 0.7 ? 'alpha-ok' : 'alpha-bad';
+    let interp = a >= 0.9 ? 'Uitstekend' : a >= 0.8 ? 'Goed' : a >= 0.7 ? 'Acceptabel' : 'Matig/Zwak';
+    return `<tr>
+      <td>${meta.nl}</td>
+      <td style="font-size:12px;color:var(--text3)">${meta.items}</td>
+      <td>${val.n}</td>
+      <td class="${cls}">&alpha; = ${a}</td>
+      <td style="color:var(--text2)">${interp}</td>
+    </tr>`;
+  });
+
+  tbody.innerHTML = rows.join('');
+}
+
+// ── Chart instance management ──────────────────────────────────────────────
+function destroyChart(id) {
+  if (chartInstances[id]) {
+    chartInstances[id].destroy();
+    delete chartInstances[id];
+  }
+  // Also clear via Chart.js registry
+  const canvas = document.getElementById(id);
+  if (canvas) {
+    const existing = Chart.getChart(canvas);
+    if (existing) existing.destroy();
+  }
+}
+
+// Wrap chart builders to track instances
+const _origLikert = buildLikertChart;
+const _origMC = buildMCChart;
+const _origTimeline = buildTimelineChart;
+
+// ── Export functions ───────────────────────────────────────────────────────
+function downloadCSV() {
+  window.location.href = '/api/export/csv?token=' + encodeURIComponent(activeToken);
+}
+
+function downloadJSON() {
+  fetch('/api/responses?token=' + activeToken)
+    .then(r => r.json())
+    .then(data => {
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'survey_responses.json';
+      a.click();
+    });
+}
+
+function generateLatex() {
+  if (!currentStats) return;
+  const tex = generateLatexTable(currentStats.questions, QUESTIONS);
+  const ta = document.getElementById('latexOutput');
+  ta.value = tex;
+  ta.style.display = 'block';
+  ta.select();
+}
+
+// ── Sidebar nav highlight on scroll ───────────────────────────────────────
+window.addEventListener('scroll', () => {
+  const sections = ['overview','timeline','s1','s2','s3','s4','s5','s6','cronbach','export'];
+  let active = 'overview';
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.getBoundingClientRect().top < 120) active = id;
+  });
+  document.querySelectorAll('.dash-nav a').forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + active);
+  });
+}, { passive: true });
+</script>
+
+</body>
+</html>

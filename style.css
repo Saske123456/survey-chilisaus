@@ -1,0 +1,724 @@
+/* ============================================================
+   Survey system — shared dark-mode stylesheet
+   Premium Artisanale Chilisaus — Master thesis UGent 2025-2026
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #0f1117;
+  --surface:   #1a1f2e;
+  --surface2:  #222840;
+  --border:    #2e3550;
+  --accent:    #e07b39;
+  --accent2:   #c45f20;
+  --blue:      #4a7fcb;
+  --text:      #e8eaf0;
+  --text2:     #9aa0b8;
+  --text3:     #6b7390;
+  --success:   #3dba7e;
+  --error:     #e05050;
+  --radius:    8px;
+  --font:      'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.65;
+  min-height: 100vh;
+}
+
+/* ── Typography ──────────────────────────────────────────── */
+h1, h2, h3, h4 { line-height: 1.3; font-weight: 700; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Cards / surfaces ────────────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+
+/* ── Buttons ─────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s;
+  text-decoration: none;
+}
+.btn:hover { opacity: 0.88; transform: translateY(-1px); }
+.btn:active { transform: none; }
+
+.btn-primary  { background: var(--accent);  color: #fff; }
+.btn-secondary{ background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+.btn-success  { background: var(--success); color: #fff; }
+.btn-sm       { padding: 6px 14px; font-size: 13px; }
+
+/* ── Progress bar ────────────────────────────────────────── */
+.progress-bar-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.progress-track {
+  flex: 1;
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+  width: 0%;
+}
+.progress-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text2);
+  white-space: nowrap;
+  min-width: 44px;
+  text-align: right;
+}
+.progress-logo {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ── Survey header ───────────────────────────────────────── */
+.survey-header {
+  background: linear-gradient(135deg, #1a1f2e 0%, #111828 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 40px 32px 32px;
+  text-align: center;
+}
+.survey-header .ugent-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 2px 10px;
+  border-radius: 3px;
+  margin-bottom: 16px;
+}
+.survey-header h1 {
+  font-size: 24px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.survey-header .subtitle {
+  font-size: 14px;
+  color: var(--text2);
+  margin-bottom: 20px;
+}
+.survey-pills {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.survey-pill {
+  font-size: 12px;
+  color: var(--text2);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+/* ── Intro box ───────────────────────────────────────────── */
+.intro-box {
+  margin: 24px 32px;
+  background: var(--surface2);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 16px 20px;
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.7;
+}
+.intro-box strong { color: var(--accent); }
+
+/* ── Survey sections ─────────────────────────────────────── */
+.survey-section {
+  margin: 0 32px 32px;
+}
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 0 12px;
+  border-top: 1px solid var(--border);
+  margin-bottom: 8px;
+}
+.section-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.section-title {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text);
+}
+.section-desc {
+  font-size: 13px;
+  color: var(--text2);
+  margin: -4px 0 16px 40px;
+  line-height: 1.6;
+}
+
+/* ── Question block ──────────────────────────────────────── */
+.question-block {
+  margin-bottom: 24px;
+}
+.question-text {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 12px;
+  line-height: 1.55;
+}
+.q-num {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  background: rgba(224, 123, 57, 0.12);
+  border: 1px solid rgba(224, 123, 57, 0.3);
+  padding: 1px 7px;
+  border-radius: 4px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+.required-star { color: var(--error); margin-left: 2px; }
+
+/* ── Radio / checkbox options ────────────────────────────── */
+.mc-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.mc-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 16px;
+  background: var(--surface2);
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text);
+  transition: border-color 0.15s, background 0.15s;
+}
+.mc-option:hover { border-color: var(--accent); background: rgba(224,123,57,0.06); }
+.mc-option input[type="radio"],
+.mc-option input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--accent);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.mc-option.selected {
+  border-color: var(--accent);
+  background: rgba(224,123,57,0.1);
+}
+
+/* ── Two-column demographics grid ────────────────────────── */
+.q-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+@media (max-width: 600px) {
+  .q-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Likert table ────────────────────────────────────────── */
+.likert-wrap {
+  overflow-x: auto;
+  margin-bottom: 24px;
+}
+.likert-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  min-width: 520px;
+}
+.likert-table thead th {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text2);
+  text-align: center;
+  padding: 8px 4px 10px;
+  border-bottom: 1px solid var(--border);
+  line-height: 1.3;
+  width: 11%;
+}
+.likert-table thead th:first-child {
+  text-align: left;
+  width: 45%;
+  padding-left: 0;
+}
+.likert-table tbody tr {
+  transition: background 0.1s;
+}
+.likert-table tbody tr:hover {
+  background: rgba(255,255,255,0.025);
+}
+.likert-table tbody td {
+  text-align: center;
+  padding: 13px 4px;
+  border-bottom: 1px solid rgba(46,53,80,0.5);
+  vertical-align: middle;
+}
+.likert-table tbody td:first-child {
+  text-align: left;
+  font-size: 14px;
+  color: var(--text);
+  padding-right: 16px;
+  line-height: 1.5;
+}
+.likert-radio {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+.likert-table tbody tr.answered td:first-child { color: var(--text2); }
+
+/* ── Price choice cards ──────────────────────────────────── */
+.price-choice {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.price-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 16px;
+  background: var(--surface2);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.price-card:hover { border-color: var(--accent); background: rgba(224,123,57,0.06); }
+.price-card.selected { border-color: var(--accent); background: rgba(224,123,57,0.1); }
+.price-card input { margin-top: 3px; accent-color: var(--accent); flex-shrink: 0; }
+.price-card-label { flex: 1; }
+.price-card-label strong { display: block; font-size: 14px; color: var(--text); margin-bottom: 2px; }
+.price-card-label span { font-size: 12px; color: var(--text2); }
+.price-tag {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent);
+  white-space: nowrap;
+  align-self: center;
+}
+
+/* ── Validation error ────────────────────────────────────── */
+.field-error {
+  display: none;
+  font-size: 12px;
+  color: var(--error);
+  margin-top: 6px;
+}
+.field-error.visible { display: block; }
+.error-outline { outline: 2px solid var(--error) !important; border-radius: 4px; }
+
+/* ── Submit section ──────────────────────────────────────── */
+.submit-section {
+  margin: 0 32px 40px;
+  padding: 24px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.submit-note {
+  font-size: 13px;
+  color: var(--text2);
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+.submit-error {
+  display: none;
+  font-size: 13px;
+  color: var(--error);
+  margin-top: 12px;
+}
+.submit-error.visible { display: block; }
+
+/* ── Success screen ──────────────────────────────────────── */
+.success-screen {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  padding: 48px 32px;
+}
+.success-screen.visible { display: flex; }
+.success-icon {
+  font-size: 56px;
+  margin-bottom: 24px;
+}
+.success-screen h2 {
+  font-size: 24px;
+  color: var(--success);
+  margin-bottom: 12px;
+}
+.success-screen p {
+  font-size: 14px;
+  color: var(--text2);
+  max-width: 400px;
+  line-height: 1.7;
+}
+
+/* ── Survey footer ───────────────────────────────────────── */
+.survey-footer {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text3);
+  padding: 24px 32px;
+  border-top: 1px solid var(--border);
+}
+
+/* ── Dashboard layout ────────────────────────────────────── */
+.dash-layout {
+  display: flex;
+  min-height: 100vh;
+}
+.dash-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 24px 16px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+.dash-sidebar .logo {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  display: block;
+}
+.dash-nav a {
+  display: block;
+  padding: 7px 12px;
+  font-size: 13px;
+  color: var(--text2);
+  border-radius: 5px;
+  margin-bottom: 2px;
+  text-decoration: none;
+  transition: background 0.1s, color 0.1s;
+}
+.dash-nav a:hover { background: var(--surface2); color: var(--text); }
+.dash-nav a.active { background: rgba(224,123,57,0.12); color: var(--accent); font-weight: 600; }
+
+.dash-main {
+  flex: 1;
+  padding: 32px 36px;
+  overflow-y: auto;
+  max-width: 1100px;
+}
+.dash-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.dash-header h1 { font-size: 22px; color: var(--text); }
+.dash-header .token-form {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.dash-header .token-form input {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 7px 12px;
+  border-radius: 5px;
+  font-size: 13px;
+  width: 160px;
+}
+
+/* ── Stat cards ──────────────────────────────────────────── */
+.stat-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 16px;
+  margin-bottom: 36px;
+}
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 16px;
+  text-align: center;
+}
+.stat-card .val {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--accent);
+  display: block;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.stat-card .lbl {
+  font-size: 12px;
+  color: var(--text2);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ── Chart section ───────────────────────────────────────── */
+.chart-section {
+  margin-bottom: 40px;
+}
+.chart-section-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--accent);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.chart-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 20px;
+}
+.chart-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+.chart-card h4 {
+  font-size: 12px;
+  color: var(--text2);
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+.chart-card .q-full {
+  font-size: 13px;
+  color: var(--text);
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+.chart-card canvas { max-height: 200px; }
+.stats-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.stats-row .s {
+  font-size: 12px;
+  color: var(--text2);
+}
+.stats-row .s span { font-weight: 700; color: var(--text); }
+
+/* ── Cronbach table ──────────────────────────────────────── */
+.cronbach-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin-bottom: 32px;
+}
+.cronbach-table th {
+  text-align: left;
+  padding: 10px 14px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text2);
+  border-bottom: 1px solid var(--border);
+}
+.cronbach-table td {
+  padding: 11px 14px;
+  border-bottom: 1px solid rgba(46,53,80,0.4);
+  color: var(--text);
+}
+.cronbach-table td.alpha-good { color: var(--success); font-weight: 700; }
+.cronbach-table td.alpha-ok   { color: #e0c040; font-weight: 700; }
+.cronbach-table td.alpha-bad  { color: var(--error); font-weight: 700; }
+
+/* ── Timeline chart ──────────────────────────────────────── */
+.timeline-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 32px;
+}
+.timeline-card h3 { font-size: 14px; color: var(--text); margin-bottom: 16px; }
+.timeline-card canvas { max-height: 160px; }
+
+/* ── Export box ──────────────────────────────────────────── */
+.export-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 32px;
+}
+.export-box h3 { font-size: 15px; margin-bottom: 8px; }
+.export-box p { font-size: 13px; color: var(--text2); margin-bottom: 16px; }
+.export-btns { display: flex; flex-wrap: wrap; gap: 10px; }
+
+/* ── Login overlay ───────────────────────────────────────── */
+.login-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,17,23,0.97);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.login-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 40px 36px;
+  width: 100%;
+  max-width: 360px;
+  text-align: center;
+}
+.login-box h2 { margin-bottom: 8px; color: var(--text); }
+.login-box p { font-size: 13px; color: var(--text2); margin-bottom: 24px; }
+.login-box input {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-bottom: 12px;
+  outline: none;
+}
+.login-box input:focus { border-color: var(--accent); }
+.login-error { font-size: 12px; color: var(--error); margin-top: 8px; display: none; }
+.login-error.visible { display: block; }
+
+/* ── LaTeX export textarea ───────────────────────────────── */
+.latex-output {
+  width: 100%;
+  min-height: 200px;
+  background: #0a0c14;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: #a8d8a0;
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 12px;
+  padding: 14px;
+  resize: vertical;
+  margin-top: 12px;
+}
+
+/* ── Filter bar ──────────────────────────────────────────── */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  flex-wrap: wrap;
+}
+.filter-bar label { font-size: 13px; color: var(--text2); font-weight: 600; }
+.filter-bar select {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.filter-bar .filter-info { font-size: 12px; color: var(--text3); }
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 860px) {
+  .dash-layout { flex-direction: column; }
+  .dash-sidebar { width: 100%; height: auto; position: static; display: flex; flex-wrap: wrap; gap: 8px; }
+  .dash-sidebar .logo { width: 100%; }
+  .dash-main { padding: 20px 16px; }
+  .survey-section, .submit-section, .intro-box { margin-left: 16px; margin-right: 16px; }
+}
+
+@media (max-width: 520px) {
+  .survey-header { padding: 28px 16px 24px; }
+  .survey-header h1 { font-size: 19px; }
+  .chart-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Print (dashboard charts export) ────────────────────── */
+@media print {
+  .dash-sidebar, .filter-bar, .export-box, .login-overlay, .progress-bar-wrap { display: none !important; }
+  body { background: #fff; color: #000; }
+  .chart-card, .stat-card, .timeline-card { border: 1px solid #ccc; break-inside: avoid; }
+}

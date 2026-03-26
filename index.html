@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consumentensurvey - Premium Artisanale Chilisaus</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Progress bar -->
+<div class="progress-bar-wrap" id="progressBar">
+  <span class="progress-logo">Chilisaus Survey</span>
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+  <span class="progress-label" id="progressLabel">0%</span>
+</div>
+
+<!-- Main form -->
+<div id="surveyForm">
+
+  <!-- Header -->
+  <div class="survey-header">
+    <span class="ugent-tag">Universiteit Gent &mdash; Masterthesis 2025-2026</span>
+    <h1>Consumentensurvey<br>Premium Artisanale Chilisaus</h1>
+    <p class="subtitle">Business Model Innovatie &mdash; Kwantitatief onderzoek</p>
+    <div class="survey-pills">
+      <span class="survey-pill">Anoniem</span>
+      <span class="survey-pill">5-8 minuten</span>
+      <span class="survey-pill">27 vragen</span>
+      <span class="survey-pill">Uitsluitend voor academisch onderzoek</span>
+    </div>
+  </div>
+
+  <!-- Intro -->
+  <div class="intro-box">
+    Dit onderzoek maakt deel uit van een masterthesis over businessmodel-innovatie voor een artisanale Belgische chilisaus.
+    Uw antwoorden worden volledig anoniem verwerkt en uitsluitend gebruikt voor academisch onderzoek.
+    Er zijn geen juiste of foute antwoorden. <strong>Alle gemarkeerde vragen zijn verplicht.</strong>
+  </div>
+
+  <form id="theForm" novalidate>
+
+    <!-- ── SECTION 1: Profiel ── -->
+    <div class="survey-section">
+      <div class="section-header">
+        <span class="section-num">1</span>
+        <span class="section-title">Uw profiel</span>
+      </div>
+      <p class="section-desc">Enkele algemene vragen over uw achtergrond en voedingsgewoonten.</p>
+
+      <div class="q-grid">
+
+        <div class="question-block" id="block-q1">
+          <p class="question-text"><span class="q-num">V1</span> Wat is uw leeftijdscategorie? <span class="required-star">*</span></p>
+          <div class="mc-options" data-name="q1">
+            <label class="mc-option"><input type="radio" name="q1" value="a"> 18-25 jaar</label>
+            <label class="mc-option"><input type="radio" name="q1" value="b"> 26-35 jaar</label>
+            <label class="mc-option"><input type="radio" name="q1" value="c"> 36-50 jaar</label>
+            <label class="mc-option"><input type="radio" name="q1" value="d"> 51 jaar of ouder</label>
+          </div>
+          <div class="field-error" id="err-q1">Gelieve een antwoord te selecteren.</div>
+        </div>
+
+        <div class="question-block" id="block-q2">
+          <p class="question-text"><span class="q-num">V2</span> Hoe omschrijft u uw geslacht? <span class="required-star">*</span></p>
+          <div class="mc-options" data-name="q2">
+            <label class="mc-option"><input type="radio" name="q2" value="a"> Man</label>
+            <label class="mc-option"><input type="radio" name="q2" value="b"> Vrouw</label>
+            <label class="mc-option"><input type="radio" name="q2" value="c"> Andere / geen voorkeur</label>
+          </div>
+          <div class="field-error" id="err-q2">Gelieve een antwoord te selecteren.</div>
+        </div>
+
+        <div class="question-block" id="block-q3">
+          <p class="question-text"><span class="q-num">V3</span> Hoe vaak kookt u thuis? <span class="required-star">*</span></p>
+          <div class="mc-options" data-name="q3">
+            <label class="mc-option"><input type="radio" name="q3" value="a"> Bijna nooit (minder dan 1x/week)</label>
+            <label class="mc-option"><input type="radio" name="q3" value="b"> Af en toe (1-3x/week)</label>
+            <label class="mc-option"><input type="radio" name="q3" value="c"> Regelmatig (4-6x/week)</label>
+            <label class="mc-option"><input type="radio" name="q3" value="d"> Elke dag</label>
+          </div>
+          <div class="field-error" id="err-q3">Gelieve een antwoord te selecteren.</div>
+        </div>
+
+        <div class="question-block" id="block-q4">
+          <p class="question-text"><span class="q-num">V4</span> Hoeveel geeft u maandelijks uit aan premium of artisanale voedingsproducten? <span class="required-star">*</span></p>
+          <div class="mc-options" data-name="q4">
+            <label class="mc-option"><input type="radio" name="q4" value="a"> Minder dan &euro;10</label>
+            <label class="mc-option"><input type="radio" name="q4" value="b"> &euro;10-25</label>
+            <label class="mc-option"><input type="radio" name="q4" value="c"> &euro;26-50</label>
+            <label class="mc-option"><input type="radio" name="q4" value="d"> Meer dan &euro;50</label>
+          </div>
+          <div class="field-error" id="err-q4">Gelieve een antwoord te selecteren.</div>
+        </div>
+
+      </div><!-- /.q-grid -->
+    </div>
+
+    <!-- ── SECTION 2: Aankoopgedrag ── -->
+    <div class="survey-section">
+      <div class="section-header">
+        <span class="section-num">2</span>
+        <span class="section-title">Aankoopgedrag bij sauzen</span>
+      </div>
+      <p class="section-desc">Duid aan in welke mate u het eens bent met de volgende stellingen. <span class="required-star">*</span> Alle stellingen verplicht.</p>
+
+      <div class="likert-wrap">
+        <table class="likert-table" id="likert-s2">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Helemaal<br>eens</th>
+              <th>Eens</th>
+              <th>Min of<br>meer eens</th>
+              <th>Niet<br>eens</th>
+              <th>Helemaal<br>niet eens</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="block-q5">
+              <td><span class="q-num">V5</span> Ik koop regelmatig speciale of artisanale sauzen en condimenten.</td>
+              <td><input class="likert-radio" type="radio" name="q5" value="5"></td>
+              <td><input class="likert-radio" type="radio" name="q5" value="4"></td>
+              <td><input class="likert-radio" type="radio" name="q5" value="3"></td>
+              <td><input class="likert-radio" type="radio" name="q5" value="2"></td>
+              <td><input class="likert-radio" type="radio" name="q5" value="1"></td>
+            </tr>
+            <tr id="block-q6">
+              <td><span class="q-num">V6</span> Bij de aankoop van sauzen is smaakkwaliteit voor mij belangrijker dan de prijs.</td>
+              <td><input class="likert-radio" type="radio" name="q6" value="5"></td>
+              <td><input class="likert-radio" type="radio" name="q6" value="4"></td>
+              <td><input class="likert-radio" type="radio" name="q6" value="3"></td>
+              <td><input class="likert-radio" type="radio" name="q6" value="2"></td>
+              <td><input class="likert-radio" type="radio" name="q6" value="1"></td>
+            </tr>
+            <tr id="block-q7">
+              <td><span class="q-num">V7</span> Ik betaal bewust meer voor een product met een duidelijk herkomstverhaal (bijv. gemaakt door een familiebedrijf).</td>
+              <td><input class="likert-radio" type="radio" name="q7" value="5"></td>
+              <td><input class="likert-radio" type="radio" name="q7" value="4"></td>
+              <td><input class="likert-radio" type="radio" name="q7" value="3"></td>
+              <td><input class="likert-radio" type="radio" name="q7" value="2"></td>
+              <td><input class="likert-radio" type="radio" name="q7" value="1"></td>
+            </tr>
+            <tr id="block-q8">
+              <td><span class="q-num">V8</span> Ik lees etiketten en zoek bewust naar informatie over de herkomst van een product.</td>
+              <td><input class="likert-radio" type="radio" name="q8" value="5"></td>
+              <td><input class="likert-radio" type="radio" name="q8" value="4"></td>
+              <td><input class="likert-radio" type="radio" name="q8" value="3"></td>
+              <td><input class="likert-radio" type="radio" name="q8" value="2"></td>
+              <td><input class="likert-radio" type="radio" name="q8" value="1"></td>
+            </tr>
+            <tr id="block-q9">
+              <td><span class="q-num">V9</span> Ik koop sauzen en condimenten het vaakst in een speciaalzaak of delicatessenwinkel.</td>
+              <td><input class="likert-radio" type="radio" name="q9" value="5"></td>
+              <td><input class="likert-radio" type="radio" name="q9" value="4"></td>
+              <td><input class="likert-radio" type="radio" name="q9" value="3"></td>
+              <td><input class="likert-radio" type="radio" name="q9" value="2"></td>
+              <td><input class="likert-radio" type="radio" name="q9" value="1"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="field-error" id="err-s2">Gelieve alle stellingen te beantwoorden.</div>
+    </div>
+
+    <!-- ── SECTION 3: Smaakbeleving ── -->
+    <div class="survey-section">
+      <div class="section-header">
+        <span class="section-num">3</span>
+        <span class="section-title">Smaakbeleving en umami</span>
+      </div>
+      <p class="section-desc"><strong>Umami</strong> is de vijfde basissmaak: de diepe, hartige smaak van ingredienten zoals sojasaus, miso, gefermenteerde producten en gerijpte kazen. Duid aan in welke mate u het eens bent. <span class="required-star">*</span></p>
+
+      <div class="likert-wrap">
+        <table class="likert-table" id="likert-s3">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Helemaal<br>eens</th>
+              <th>Eens</th>
+              <th>Min of<br>meer eens</th>
+              <th>Niet<br>eens</th>
+              <th>Helemaal<br>niet eens</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="block-q10">
+              <td><span class="q-num">V10</span> Ik eet graag pittige of scherpe gerechten.</td>
+              <td><input class="likert-radio" type="radio" name="q10" value="5"></td>
+              <td><input class="likert-radio" type="radio" name="q10" value="4"></td>
+              <td><input class="likert-radio" type="radio" name="q10" value="3"></td>
+              <td><input class="likert-radio" type="radio" name="q10" value="2"></td>
+              <td><input class="likert-radio" type="radio" name="q10" value="1"></td>
+            </tr>
+            <tr id="block-q11">
+              <td><span class="q-num">V11</span> Ik ben vertrouwd met de smaakterm "umami" en kan die herkennen in gerechten.</td>
+              <td><input class="likert-radio" type="radio" name="q11" value="5"></td>
+              <td><input class="likert-radio" type="radio" name="q11" value="4"></td>
+              <td><input class="likert-radio" type="radio" name="q11" value="3"></td>
+              <td><input class="likert-radio" type="radio" name="q11" value="2"></td>
+              <td><input class="likert-radio" type="radio" name="q11" value="1"></td>
+            </tr>
+            <tr id="block-q12">
+              <td><span class="q-num">V12</span> Een chilisaus met een diepe, hartige smaak (umami) spreekt mij meer aan dan een saus die enkel scherp is.</td>
+              <td><input class="likert-radio" type="radio" name="q12" value="5"></td>
+              <td><input class="likert-radio" type="radio" name="q12" value="4"></td>
+              <td><input class="likert-radio" type="radio" name="q12" value="3"></td>
+              <td><input class="likert-radio" type="radio" name="q12" value="2"></td>
+              <td><input class="likert-radio" type="radio" name="q12" value="1"></td>
+            </tr>
+            <tr id="block-q13">
+              <td><span class="q-num">V13</span> Ik koop regelmatig gefermenteerde producten (kimchi, miso, kombucha, gefermenteerde sauzen) omdat ik de smaak interessant vind.</td>
+              <td><input class="likert-radio" type="radio" name="q13" value="5"></td>
+              <td><input class="likert-radio" type="radio" name="q13" value="4"></td>
+              <td><input class="likert-radio" type="radio" name="q13" value="3"></td>
+              <td><input class="likert-radio" type="radio" name="q13" value="2"></td>
+              <td><input class="likert-radio" type="radio" name="q13" value="1"></td>
+            </tr>
+            <tr id="block-q14">
+              <td><span class="q-num">V14</span> Een saus met een complexe, gelaagde smaak is voor mij interessanter dan een saus met een eenvoudige smaak.</td>
+              <td><input class="likert-radio" type="radio" name="q14" value="5"></td>
+              <td><input class="likert-radio" type="radio" name="q14" value="4"></td>
+              <td><input class="likert-radio" type="radio" name="q14" value="3"></td>
+              <td><input class="likert-radio" type="radio" name="q14" value="2"></td>
+              <td><input class="likert-radio" type="radio" name="q14" value="1"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="field-error" id="err-s3">Gelieve alle stellingen te beantwoorden.</div>
+    </div>
+
+    <!-- ── SECTION 4: Productperceptie ── -->
+    <div class="survey-section">
+      <div class="section-header">
+        <span class="section-num">4</span>
+        <span class="section-title">Productperceptie en merkpositionering</span>
+      </div>
+      <p class="section-desc">Duid aan in welke mate u het eens bent met de volgende stellingen over artisanale producten en merkidentiteit. <span class="required-star">*</span></p>
+
+      <div class="likert-wrap">
+        <table class="likert-table" id="likert-s4">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Helemaal<br>eens</th>
+              <th>Eens</th>
+              <th>Min of<br>meer eens</th>
+              <th>Niet<br>eens</th>
+              <th>Helemaal<br>niet eens</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="block-q15">
+              <td><span class="q-num">V15</span> Een saus van een klein artisanaal familiebedrijf heeft voor mij meer waarde dan een merksaus uit de supermarkt.</td>
+              <td><input class="likert-radio" type="radio" name="q15" value="5"></td>
+              <td><input class="likert-radio" type="radio" name="q15" value="4"></td>
+              <td><input class="likert-radio" type="radio" name="q15" value="3"></td>
+              <td><input class="likert-radio" type="radio" name="q15" value="2"></td>
+              <td><input class="likert-radio" type="radio" name="q15" value="1"></td>
+            </tr>
+            <tr id="block-q16">
+              <td><span class="q-num">V16</span> Als een artisanale saus een duidelijke link heeft met een gerenommeerd merk (bijv. een brouwerij of wijndomein), wekt dat extra vertrouwen bij mij.</td>
+              <td><input class="likert-radio" type="radio" name="q16" value="5"></td>
+              <td><input class="likert-radio" type="radio" name="q16" value="4"></td>
+              <td><input class="likert-radio" type="radio" name="q16" value="3"></td>
+              <td><input class="likert-radio" type="radio" name="q16" value="2"></td>
+              <td><input class="likert-radio" type="radio" name="q16" value="1"></td>
+            </tr>
+            <tr id="block-q17">
+              <td><span class="q-num">V17</span> De verpakking en het ontwerp van een saus beinvloeden mijn beslissing om het te kopen.</td>
+              <td><input class="likert-radio" type="radio" name="q17" value="5"></td>
+              <td><input class="likert-radio" type="radio" name="q17" value="4"></td>
+              <td><input class="likert-radio" type="radio" name="q17" value="3"></td>
+              <td><input class="likert-radio" type="radio" name="q17" value="2"></td>
+              <td><input class="likert-radio" type="radio" name="q17" value="1"></td>
+            </tr>
+            <tr id="block-q18">
+              <td><span class="q-num">V18</span> Ik geef de voorkeur aan een saus met een beperkt aantal herkendbare ingredienten boven een saus met veel additieven.</td>
+              <td><input class="likert-radio" type="radio" name="q18" value="5"></td>
+              <td><input class="likert-radio" type="radio" name="q18" value="4"></td>
+              <td><input class="likert-radio" type="radio" name="q18" value="3"></td>
+              <td><input class="likert-radio" type="radio" name="q18" value="2"></td>
+              <td><input class="likert-radio" type="radio" name="q18" value="1"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="field-error" id="err-s4">Gelieve alle stellingen te beantwoorden.</div>
+    </div>
+
+    <!-- ── SECTION 5: Betalingsbereidheid ── -->
+    <div class="survey-section">
+      <div class="section-header">
+        <span class="section-num">5</span>
+        <span class="section-title">Betalingsbereidheid</span>
+      </div>
+      <p class="section-desc">Deze sectie peilt naar de prijs die u bereid bent te betalen voor een artisanale premium chilisaus (fles van ca. 120 ml). <span class="required-star">*</span></p>
+
+      <div class="likert-wrap" style="margin-bottom:24px;">
+        <table class="likert-table" id="likert-s5">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Helemaal<br>eens</th>
+              <th>Eens</th>
+              <th>Min of<br>meer eens</th>
+              <th>Niet<br>eens</th>
+              <th>Helemaal<br>niet eens</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="block-q19">
+              <td><span class="q-num">V19</span> Ik ben bereid &euro;8-10 te betalen voor een fles artisanale premium chilisaus als de kwaliteit uitzonderlijk is.</td>
+              <td><input class="likert-radio" type="radio" name="q19" value="5"></td>
+              <td><input class="likert-radio" type="radio" name="q19" value="4"></td>
+              <td><input class="likert-radio" type="radio" name="q19" value="3"></td>
+              <td><input class="likert-radio" type="radio" name="q19" value="2"></td>
+              <td><input class="likert-radio" type="radio" name="q19" value="1"></td>
+            </tr>
+            <tr id="block-q20">
+              <td><span class="q-num">V20</span> Ik zou een artisanale premium chilisaus kopen als een chef, restaurant of foodspecialist die aanbeveelt.</td>
+              <td><input class="likert-radio" type="radio" name="q20" value="5"></td>
+              <td><input class="likert-radio" type="radio" name="q20" value="4"></td>
+              <td><input class="likert-radio" type="radio" name="q20" value="3"></td>
+              <td><input class="likert-radio" type="radio" name="q20" value="2"></td>
+              <td><input class="likert-radio" type="radio" name="q20" value="1"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="field-error" id="err-s5a">Gelieve alle stellingen te beantwoorden.</div>
+
+      <div class="question-block" id="block-q21">
+        <p class="question-text"><span class="q-num">V21</span> U staat voor de keuze in de winkel. Welke optie kiest u voor een chilisaus van ca. 120 ml? <span class="required-star">*</span></p>
+        <div class="price-choice">
+          <label class="price-card">
+            <input type="radio" name="q21" value="a">
+            <div class="price-card-label">
+              <strong>Standaard merksaus</strong>
+              <span>Gekend merk, supermarkt, klassiek pittig</span>
+            </div>
+            <span class="price-tag">&euro;3-4</span>
+          </label>
+          <label class="price-card">
+            <input type="radio" name="q21" value="b">
+            <div class="price-card-label">
+              <strong>Ambachtelijke Belgische saus</strong>
+              <span>Klein bedrijf, lokale ingredienten, speciaalzaak</span>
+            </div>
+            <span class="price-tag">&euro;6-8</span>
+          </label>
+          <label class="price-card">
+            <input type="radio" name="q21" value="c">
+            <div class="price-card-label">
+              <strong>Artisanale umami-chilisaus van een familiebedrijf</strong>
+              <span>Gefermenteerd, complex smaakprofiel, beperkte oplage, duidelijk herkomstverhaal</span>
+            </div>
+            <span class="price-tag">&euro;10-12</span>
+          </label>
+        </div>
+        <div class="field-error" id="err-q21">Gelieve een optie te selecteren.</div>
+      </div>
+
+      <div class="question-block" id="block-q22">
+        <p class="question-text"><span class="q-num">V22</span> Als u zou kiezen voor de artisanale umami-chilisaus, waar koopt u hem dan het liefst? <span class="required-star">*</span></p>
+        <div class="mc-options" data-name="q22">
+          <label class="mc-option"><input type="radio" name="q22" value="a"> In een delicatessen- of speciaalzaak</label>
+          <label class="mc-option"><input type="radio" name="q22" value="b"> Online, rechtstreeks bij de producent</label>
+          <label class="mc-option"><input type="radio" name="q22" value="c"> In een kwaliteitssupermarkt (bijv. Delhaize, biologische winkels)</label>
+          <label class="mc-option"><input type="radio" name="q22" value="d"> In een horecazaak of restaurant als meeneemsouvenirproduct</label>
+          <label class="mc-option"><input type="radio" name="q22" value="e"> Ik zou dit product niet kopen</label>
+        </div>
+        <div class="field-error" id="err-q22">Gelieve een antwoord te selecteren.</div>
+      </div>
+    </div>
+
+    <!-- ── SECTION 6: Koopintentie ── -->
+    <div class="survey-section">
+      <div class="section-header">
+        <span class="section-num">6</span>
+        <span class="section-title">Koopintentie</span>
+      </div>
+      <p class="section-desc">Duid aan in welke mate u het eens bent met de volgende stellingen over uw aankoopgedrag voor dit type product. <span class="required-star">*</span></p>
+
+      <div class="likert-wrap">
+        <table class="likert-table" id="likert-s6">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Helemaal<br>eens</th>
+              <th>Eens</th>
+              <th>Min of<br>meer eens</th>
+              <th>Niet<br>eens</th>
+              <th>Helemaal<br>niet eens</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="block-q23">
+              <td><span class="q-num">V23</span> Ik zou een artisanale umami-chilisaus uitproberen als ik hem tegenkom in een speciaalzaak.</td>
+              <td><input class="likert-radio" type="radio" name="q23" value="5"></td>
+              <td><input class="likert-radio" type="radio" name="q23" value="4"></td>
+              <td><input class="likert-radio" type="radio" name="q23" value="3"></td>
+              <td><input class="likert-radio" type="radio" name="q23" value="2"></td>
+              <td><input class="likert-radio" type="radio" name="q23" value="1"></td>
+            </tr>
+            <tr id="block-q24">
+              <td><span class="q-num">V24</span> Ik zou een artisanale umami-chilisaus kopen als cadeau voor een foodliefhebber.</td>
+              <td><input class="likert-radio" type="radio" name="q24" value="5"></td>
+              <td><input class="likert-radio" type="radio" name="q24" value="4"></td>
+              <td><input class="likert-radio" type="radio" name="q24" value="3"></td>
+              <td><input class="likert-radio" type="radio" name="q24" value="2"></td>
+              <td><input class="likert-radio" type="radio" name="q24" value="1"></td>
+            </tr>
+            <tr id="block-q25">
+              <td><span class="q-num">V25</span> Als ik de saus lekker vind, zou ik hem aanbevelen aan vrienden of familie.</td>
+              <td><input class="likert-radio" type="radio" name="q25" value="5"></td>
+              <td><input class="likert-radio" type="radio" name="q25" value="4"></td>
+              <td><input class="likert-radio" type="radio" name="q25" value="3"></td>
+              <td><input class="likert-radio" type="radio" name="q25" value="2"></td>
+              <td><input class="likert-radio" type="radio" name="q25" value="1"></td>
+            </tr>
+            <tr id="block-q26">
+              <td><span class="q-num">V26</span> Als de saus mij bevalt, zou ik hem regelmatig (minstens 1x/maand) aankopen.</td>
+              <td><input class="likert-radio" type="radio" name="q26" value="5"></td>
+              <td><input class="likert-radio" type="radio" name="q26" value="4"></td>
+              <td><input class="likert-radio" type="radio" name="q26" value="3"></td>
+              <td><input class="likert-radio" type="radio" name="q26" value="2"></td>
+              <td><input class="likert-radio" type="radio" name="q26" value="1"></td>
+            </tr>
+            <tr id="block-q27">
+              <td><span class="q-num">V27</span> Ik zou een online bestelling plaatsen bij de producent als de saus niet in mijn buurt verkrijgbaar is.</td>
+              <td><input class="likert-radio" type="radio" name="q27" value="5"></td>
+              <td><input class="likert-radio" type="radio" name="q27" value="4"></td>
+              <td><input class="likert-radio" type="radio" name="q27" value="3"></td>
+              <td><input class="likert-radio" type="radio" name="q27" value="2"></td>
+              <td><input class="likert-radio" type="radio" name="q27" value="1"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="field-error" id="err-s6">Gelieve alle stellingen te beantwoorden.</div>
+    </div>
+
+    <!-- ── Submit ── -->
+    <div class="submit-section">
+      <p class="submit-note">
+        Door op "Verstuur" te klikken bevestigt u dat uw antwoorden anoniem worden verwerkt en uitsluitend gebruikt voor het academisch onderzoek van de masterthesis aan de Universiteit Gent.
+      </p>
+      <button type="submit" class="btn btn-primary" id="submitBtn">
+        Verstuur mijn antwoorden
+      </button>
+      <div class="submit-error" id="submitError">
+        Gelieve alle verplichte vragen in te vullen voor u de enquete verstuurt.
+      </div>
+    </div>
+
+  </form><!-- /#theForm -->
+
+  <!-- Footer -->
+  <div class="survey-footer">
+    Masterthesis Business Model Innovatie &mdash; Universiteit Gent &mdash; 2025-2026 &mdash;
+    Anoniem en vertrouwelijk
+  </div>
+
+</div><!-- /#surveyForm -->
+
+<!-- Success screen -->
+<div class="success-screen" id="successScreen">
+  <div class="success-icon">&#10003;</div>
+  <h2>Hartelijk dank!</h2>
+  <p>Uw antwoorden zijn succesvol ontvangen. Ze worden anoniem verwerkt als onderdeel van het kwantitatief onderzoek van de masterthesis.</p>
+</div>
+
+<script>
+  // ── Configuratie: vul hier uw Web3Forms sleutel in ────────────────────
+  // Stap 1: ga naar https://web3forms.com
+  // Stap 2: voer uw e-mailadres in en klik "Create your Access Key"
+  // Stap 3: plak de sleutel hieronder tussen de aanhalingstekens
+  const WEB3FORMS_KEY = '1b911d80-e0be-45a3-ba13-766817093abf';
+
+  // ── Progress tracking ─────────────────────────────────────────────────
+  const REQUIRED_SINGLES = ['q1','q2','q3','q4','q21','q22'];
+  const REQUIRED_LIKERT_GROUPS = {
+    's2': ['q5','q6','q7','q8','q9'],
+    's3': ['q10','q11','q12','q13','q14'],
+    's4': ['q15','q16','q17','q18'],
+    's5a': ['q19','q20'],
+    's6': ['q23','q24','q25','q26','q27']
+  };
+  const TOTAL_QUESTIONS = 27;
+
+  function getAnsweredCount() {
+    let count = 0;
+    for (const name of REQUIRED_SINGLES) {
+      if (document.querySelector(`input[name="${name}"]:checked`)) count++;
+    }
+    for (const keys of Object.values(REQUIRED_LIKERT_GROUPS)) {
+      for (const k of keys) {
+        if (document.querySelector(`input[name="${k}"]:checked`)) count++;
+      }
+    }
+    return count;
+  }
+
+  function updateProgress() {
+    const done = getAnsweredCount();
+    const pct = Math.round((done / TOTAL_QUESTIONS) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressLabel').textContent = pct + '%';
+  }
+
+  document.getElementById('theForm').addEventListener('change', updateProgress);
+
+  // ── Highlight selected MC options ─────────────────────────────────────
+  document.querySelectorAll('.mc-option input[type="radio"]').forEach(input => {
+    input.addEventListener('change', () => {
+      const name = input.name;
+      document.querySelectorAll(`input[name="${name}"]`).forEach(i => {
+        i.closest('.mc-option').classList.remove('selected');
+      });
+      input.closest('.mc-option').classList.add('selected');
+    });
+  });
+
+  // Highlight price cards
+  document.querySelectorAll('.price-card input[type="radio"]').forEach(input => {
+    input.addEventListener('change', () => {
+      document.querySelectorAll('.price-card').forEach(c => c.classList.remove('selected'));
+      input.closest('.price-card').classList.add('selected');
+    });
+  });
+
+  // ── Validation ────────────────────────────────────────────────────────
+  function validate() {
+    let valid = true;
+
+    // Single MC questions
+    for (const name of REQUIRED_SINGLES) {
+      const answered = !!document.querySelector(`input[name="${name}"]:checked`);
+      const errEl = document.getElementById(`err-${name}`);
+      if (errEl) errEl.classList.toggle('visible', !answered);
+      if (!answered) valid = false;
+    }
+
+    // Likert groups
+    for (const [group, keys] of Object.entries(REQUIRED_LIKERT_GROUPS)) {
+      let groupComplete = true;
+      for (const k of keys) {
+        if (!document.querySelector(`input[name="${k}"]:checked`)) {
+          groupComplete = false;
+          break;
+        }
+      }
+      const errEl = document.getElementById(`err-${group}`);
+      if (errEl) errEl.classList.toggle('visible', !groupComplete);
+      if (!groupComplete) valid = false;
+    }
+
+    return valid;
+  }
+
+  // ── Collect form data ─────────────────────────────────────────────────
+  function collectData() {
+    const data = {};
+    for (let i = 1; i <= 27; i++) {
+      const key = `q${i}`;
+      const el = document.querySelector(`input[name="${key}"]:checked`);
+      data[key] = el ? el.value : '';
+    }
+    return data;
+  }
+
+  // ── UUID generator (no server needed) ────────────────────────────────
+  function makeUUID() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+      const r = Math.random() * 16 | 0;
+      return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+  }
+
+  // ── Save response to localStorage ─────────────────────────────────────
+  function saveToLocalStorage(record) {
+    const key = 'survey_chilisaus_responses';
+    const existing = JSON.parse(localStorage.getItem(key) || '[]');
+    existing.push(record);
+    localStorage.setItem(key, JSON.stringify(existing));
+  }
+
+  // ── Submit ────────────────────────────────────────────────────────────
+  document.getElementById('theForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const errDiv = document.getElementById('submitError');
+
+    if (!validate()) {
+      errDiv.classList.add('visible');
+      const firstErr = document.querySelector('.field-error.visible');
+      if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    errDiv.classList.remove('visible');
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = 'Bezig met versturen...';
+
+    const record = {
+      response_id: makeUUID(),
+      timestamp: new Date().toISOString(),
+      ...collectData()
+    };
+
+    // Always save to localStorage first — works without any server
+    saveToLocalStorage(record);
+
+    // Send to Web3Forms if a key is configured
+    if (WEB3FORMS_KEY && WEB3FORMS_KEY !== 'JOUW_SLEUTEL_HIER') {
+      try {
+        await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            access_key: WEB3FORMS_KEY,
+            subject: 'Nieuwe surveyrespons - Chilisaus thesis',
+            from_name: 'Survey Chilisaus',
+            ...record
+          })
+        });
+      } catch (_) {
+        // Netwerkfout — localStorage-opslag is voldoende als backup
+      }
+    }
+
+    // Optionally also send to local Node.js API if running
+    try {
+      await fetch('/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(record)
+      });
+    } catch (_) { /* server niet actief */ }
+
+    // Always show success
+    document.getElementById('surveyForm').style.display = 'none';
+    document.getElementById('progressBar').style.display = 'none';
+    document.getElementById('successScreen').classList.add('visible');
+    window.scrollTo(0, 0);
+
+  });
+</script>
+
+</body>
+</html>
